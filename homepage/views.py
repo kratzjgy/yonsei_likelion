@@ -11,3 +11,7 @@ def index(request):
         'latest_question_list': "test",
     }
     return HttpResponse(template.render(context, request))
+
+def about(request):
+    return render(request,'homepage/about.html',{}) 
+    
