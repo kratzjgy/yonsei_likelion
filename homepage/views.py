@@ -9,7 +9,32 @@ from .models import Comment
 #from .models import .
 from .forms import CommentForm
 # Create your views here.
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login
+from django.http import HttpResponseRedirect
+from django import forms
+from .forms import UserRegistrationForm
+from django.http import HttpResponse
+from django.template import loader
 
+def register(request):
+    if request.method == 'POST':
+        form = UserRegistrationForm(request.POST)
+        if form.is_valid():
+            userObj = form.cleaned_data
+            username = userObj['username']
+            email =  userObj['email']
+            password =  userObj['password']
+            if not (User.objects.filter(username=username).exists() or User.objects.filter(email=email).exists()):
+                User.objects.create_user(username, email, password)
+                user = authenticate(username = username, password = password)
+                login(request, user)
+                return HttpResponseRedirect('/')
+            else:
+                raise forms.ValidationError('Looks like a username with that email or password already exists')
+    else:
+        form = UserRegistrationForm()
+    return render(request, 'homepage/register.html', {'form' : form})
 def index(request):
     template = loader.get_template('homepage/index.html')
     context = {
@@ -61,4 +86,4 @@ def comment_edit(request, post_pk, pk):
     return render(request, 'homepage/post_form.html', {
         'form' : form,
     })
-            
+        

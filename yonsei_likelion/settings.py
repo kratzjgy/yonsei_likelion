@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'homepage',
 ]
 
+LOGIN_REDIRECT_URL = '/login'
+
 MIDDLEWARE_CLASSES = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
