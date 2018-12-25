@@ -86,4 +86,6 @@ def comment_edit(request, post_pk, pk):
     return render(request, 'homepage/post_form.html', {
         'form' : form,
     })
-        
+    
+def home(request):
+    return render(request,'homepage/home.html',{}) 
