@@ -1,0 +1,27 @@
+
+{% extends 'homepage/base.html' %}
+
+{% block content %}
+<section class="bg-primary" id="post">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 mx-auto text-center">
+        <h2 class="section-heading text-white">연세대학교 멋쟁이 사자처럼의 <br/>방명록!</h2><br/>
+            <table width=100%, border = 1px, text-align=left, padding=8px;>
+              <tr>
+                <th>게시글 제목</th>
+                <th>게시글</th>
+              </tr>
+               {% for post in post_list %}
+              <tr>
+                <td>{{post.title}}</td>
+                <td>{{post.content}}</td>
+              </tr>
+             {% endfor %}
+            </table>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
