@@ -4,10 +4,9 @@ from django.contrib.auth import authenticate, login
 from django.http import HttpResponseRedirect
 from django import forms
 from .forms import UserRegistrationForm
+from django.http import HttpResponse
+from django.template import loader
 
-
-def home(request):
-    return render(request, 'homepage/home.html')
 def register(request):
     if request.method == 'POST':
         form = UserRegistrationForm(request.POST)
@@ -26,3 +25,13 @@ def register(request):
     else:
         form = UserRegistrationForm()
     return render(request, 'homepage/register.html', {'form' : form})
+def index(request):
+    template = loader.get_template('homepage/index.html')
+    context = {
+        'latest_question_list': "test",
+    }
+    return HttpResponse(template.render(context, request))
+
+def about(request):
+    return render(request,'homepage/about.html',{}) 
+    

@@ -27,6 +27,5 @@ urlpatterns = [
     url(r'^logout/$', auth_views.logout, name='logout'),
     url(r'^$', home),
     url(r'^register/', register),
-    
-
+    url(r'^about/', include('homepage.urls')),
 ]
