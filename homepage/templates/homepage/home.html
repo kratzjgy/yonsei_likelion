@@ -30,7 +30,7 @@
   <body id="page-top">
 
     <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+<!--    <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
       <div class="container">
         <a class="navbar-brand js-scroll-trigger" href="#page-top">Yonsei Likelion</a>
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
@@ -53,7 +53,18 @@
           </ul>
         </div>
       </div>
-    </nav>
+    </nav>-->
+
+    <ul class="nav navbar-nav navbar-right">
+      {% if user.is_active %}
+      <li><a href="{%url 'login' %}"> <span class="glyphicon glyphicon-heart"></span> {{user.username}}</a></li>
+      <li><a href="{% url 'logout' %}">Logout</a></li>
+      {% else %}
+      <li><a href="{%url 'login' %}"> <span class="glyphicon glyphicon-user"></span> Login</a></li>
+      <li><a href="{% url 'admin:index' %}">Admin</a></li>
+      {% endif %}
+    </ul>
+
 
     <header class="masthead text-center text-white d-flex">
       <div class="container my-auto">
