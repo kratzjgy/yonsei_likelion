@@ -1,5 +1,17 @@
 {% extends 'homepage/base.html' %}
 {% block content %}
+<style type="text/css">
+  .youtubeWrap {
+    position: relative;
+    width: 100%;
+    padding-bottom: 56.25%;
+  }
+  .youtubeWrap iframe {
+    /*position: absolute;*/
+    width: 330;
+    height: 215;
+  }
+</style>
 <section class="bg-primary" id="about">
   <div class="container">
     <div class="row">
@@ -12,6 +24,26 @@
         </p>
         <a class="btn btn-light btn-xl js-scroll-trigger" href="#services">Hack Your Life!</a>
       </div>
+    </div>
+  </div>
+</section>
+
+<section id="services">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12 text-center">
+        <h2 class="section-heading">6기 리크루팅 영상</h2>
+        <hr class="my-4">
+      </div>
+    </div><br/><br/>
+    <div class="col-lg-12 text-center">
+      <div class="youtubeWrap">
+      <iframe width="660" height="415" src="https://www.youtube.com/embed/lhtwVZOpHEg" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="row">
     </div>
   </div>
 </section>
