@@ -17,11 +17,13 @@ class Homepage(models.Model):
 
 # Create your models here.
 class Post(models.Model):
+    author = models.CharField(max_length = 10, null=True)
     title = models.CharField(max_length = 200)
     content = models.TextField()
     photo = models.ImageField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
+    hits = models.IntegerField(null=True, blank=True)
     
     def __unicode__(self):
         return self.title

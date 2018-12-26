@@ -6,7 +6,7 @@ from .models import Comment
 admin.site.register(Homepage)
 # Register your models here.
 class PostAdmin(admin.ModelAdmin):
-    list_display = ('id', 'title')
+    list_display = ('id', 'author', 'title')
 
 admin.site.register(Post, PostAdmin)
 admin.site.register(Comment)

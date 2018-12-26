@@ -8,6 +8,7 @@ from .models import Post
 from .models import Comment
 #from .models import .
 from .forms import CommentForm
+from .forms import PostForm
 # Create your views here.
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
@@ -16,6 +17,8 @@ from django import forms
 from .forms import UserRegistrationForm
 from django.http import HttpResponse
 from django.template import loader
+from pagingHelper import pagingHelper
+#generic view
 
 def register(request):
     if request.method == 'POST':
@@ -45,16 +48,41 @@ def index(request):
 def about(request):
     return render(request,'homepage/about.html',{}) 
 
+#POST
+rowsPerPage = 10
 def post(request):
-    post_list = Post.objects.all()
-    return render(request, 'homepage/post.html', {
-        'post_list': post_list,
-    })
+    post_list = Post.objects.order_by('-id')[0:10]
+    current_page = 1
+    totalCnt = Post.objects.all().count()
     
+#    pagingHelperIns = pagingHelper();
+#    totalPageList = pagingHelperIns.getTotalPageList(totalCnt, rowsPerPage)
+#    print 'totalPageList', totalPageList
+    
+    return render(request, 'homepage/post.html', {
+        'post_list': post_list, 'totalCnt' : totalCnt, 
+        'current_page': current_page, 
+
+#        'totalPageList' : totalPageList,
+    })
+
+############################################################
 def post_detail(request, pk):
     post = Post.objects.get(pk = pk)
     return render(request, 'homepage/post_detail.html', {
         'post': post,
+    })
+    
+def post_new(request):
+    if request.method == 'POST':
+        form = PostForm(request.POST)
+        if form.is_valid():
+            post = form.save()
+            return redirect('/post')
+    else:
+        form=PostForm()
+    return render(request, 'homepage/post_form.html', {
+        'form' : form
     })
     
 def comment_new(request, pk):
@@ -67,7 +95,7 @@ def comment_new(request, pk):
             return redirect('homepage.views.post_detail', pk)
     else:
         form = CommentForm()
-    return render(request, 'homepage/post_form.html', {
+    return render(request, 'homepage/comment_form.html', {
         'form' : form,
     })
         
@@ -83,9 +111,10 @@ def comment_edit(request, post_pk, pk):
             return redirect('homepage.views.post_detail', post_pk)
     else:
         form = CommentForm(instance = comment)
-    return render(request, 'homepage/post_form.html', {
+    return render(request, 'homepage/comment_form.html', {
         'form' : form,
     })
     
 def home(request):
     return render(request,'homepage/home.html',{}) 
+

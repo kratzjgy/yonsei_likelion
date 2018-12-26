@@ -1,8 +1,34 @@
+{% extends 'homepage/base.html' %}
+
+{% block content %}
+<style type="text/css">
+  .yonsei-blue{
+    background-color: #1B1ECE;
+  }
+</style>
+
+<section class="bg-primary" id="about">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 mx-auto text-center">
+        <h2 class="section-heading text-white">게시물 #{{post.id}}</h2>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 mx-auto text-center">
+
+<small>작성자: {{post.author}}</small>
 <h1>{{post.title}}</h1>
 {% if post.photo %}
     <img src="{{ post.photo.url }}" />
 {% endif %}
 {{post.content|linebreaks}}
+
 
 <h3>Comments</h3>
 
@@ -17,3 +43,29 @@
         </li>
     {% endfor %}
 </ul>
+
+
+<section id="contact">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 mx-auto text-center">
+        <h2 class="section-heading">무엇이든 물어보세요!</h2>
+        <hr class="my-4">
+        <p class="mb-5">연세대학교 멋쟁이 사자처럼에 대해 궁금한 것들을 언제든 물어봐주세요! 빠른 시간 내에 답변드리도록 하겠습니다.</p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-4 ml-auto text-center">
+        <i class="fas fa-phone fa-3x mb-3 sr-contact-1"></i>
+        <p>123-456-6789</p>
+      </div>
+      <div class="col-lg-4 mr-auto text-center">
+        <i class="fas fa-envelope fa-3x mb-3 sr-contact-2"></i>
+        <p>
+          <a href="https://web.facebook.com/yonsei.likelion/?eid=ARCqPEkWweJt8hWzp622BvcKq4OCDgIrybLTPeB9BuxnB4H9LcNxKsF5x6_L_ddFY9HzmMilX3PZL8qW">페이스북 페이지로 문의하기</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
