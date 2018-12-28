@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.shortcuts import redirect
+from django.shortcuts import get_object_or_404
 from django.http import HttpResponse
 from django.template import loader
 from django.utils import timezone
@@ -9,15 +10,16 @@ from .models import Comment
 #from .models import .
 from .forms import CommentForm
 from .forms import PostForm
+from .forms import SearchForm
+from .forms import UserRegistrationForm
 # Create your views here.
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from django.http import HttpResponseRedirect
 from django import forms
-from .forms import UserRegistrationForm
+
 from django.http import HttpResponse
 from django.template import loader
-from pagingHelper import pagingHelper
 #generic view
 
 def register(request):
@@ -38,6 +40,7 @@ def register(request):
     else:
         form = UserRegistrationForm()
     return render(request, 'homepage/register.html', {'form' : form})
+    
 def index(request):
     template = loader.get_template('homepage/index.html')
     context = {
@@ -49,23 +52,21 @@ def about(request):
     return render(request,'homepage/about.html',{}) 
 
 #POST
-rowsPerPage = 10
+
 def post(request):
-    post_list = Post.objects.order_by('-id')[0:10]
-    current_page = 1
+    post_list = Post.objects.all().order_by('id')
     totalCnt = Post.objects.all().count()
-    
-#    pagingHelperIns = pagingHelper();
-#    totalPageList = pagingHelperIns.getTotalPageList(totalCnt, rowsPerPage)
-#    print 'totalPageList', totalPageList
     
     return render(request, 'homepage/post.html', {
         'post_list': post_list, 'totalCnt' : totalCnt, 
-        'current_page': current_page, 
-
-#        'totalPageList' : totalPageList,
     })
 
+def get_queryset(self):
+    qs = Post.Objects.all()
+    q = self.request.GET.get('q', '')
+    if q:
+        qs = qs.filter(title__icontains=q)
+        return qs
 ############################################################
 def post_detail(request, pk):
     post = Post.objects.get(pk = pk)
@@ -84,6 +85,31 @@ def post_new(request):
     return render(request, 'homepage/post_form.html', {
         'form' : form
     })
+
+def post_edit(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    
+    if request.method == 'POST':
+        form = PostForm(request.POST, instance=post)
+        if form.is_valid():
+            #post = form.save(commit=False)
+            #post.author = request.user
+            #post.published_date = timezone.now()
+            post.save()
+            return redirect('homepage.views.post_detail', pk=post.pk)
+    else:
+        form = PostForm(instance=post)
+    return render(request, 'homepage/post_form.html', {
+        'form': form,
+    })
+        
+    
+def post_remove(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    post.delete()
+    return redirect('homepage.views.post')
+    
+
     
 def comment_new(request, pk):
     if request.method == 'POST':

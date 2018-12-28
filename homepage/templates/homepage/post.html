@@ -21,27 +21,23 @@
 <table cellspacing=1 width=700 border=0>
     <tr>
         <td><p align = left>총 게시물수: {{ totalCnt }}</td>
-        <td><p align=right> 페이지:{{ current_page }}</td>
     </tr>
 </table>
 
 
 <table cellspacing=1 width=700 border=1>
     <tr>
-        <td width=50><p align=center>번호</p>
-        </td>
-        <td width=100><p align=center>이름</p>
+        <td width=100><p align=center>작성자</p>
         </td>
         <td width=320><p align=center>제목</p>
         </td>
-        <td width=100><p align=center>등록일</p>
+        <td width=150><p align=center>등록일</p>
         </td>
         <td width=100><p align=center>조회수</p>
         </td>
     </tr>
     {% for post in post_list %}
     <tr>
-        <td>{{post.id}}</td>
         <td>{{post.author}}</td>
         <td><a href='/post/{{post.id}}'>{{post.title}}</a></td>
         <td>{{post.created_at}}</td>
@@ -49,7 +45,11 @@
     </tr>
     {% endfor %}
 </table><br><br>
-<a href="{% url 'homepage.views.post_new' %}">글쓰기</a>
+<form action="" method="get" class="text-right search">
+				<input type="text" name="q" value="{{ q }}" placeholder="제목 검색" class="search-input">
+				<input type="submit" value="검색" class="btn btn-success search-btn">
+  <a href="{% url 'homepage.views.post_new' %}">글쓰기</a>
+</form>
 </div>
 </div>
 </div>

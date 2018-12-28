@@ -12,6 +12,8 @@ urlpatterns = [
     url(r'^post/$', views.post, name='post'),
     url(r'^post/new', views.post_new, name='post_new'),
     url(r'^post/(?P<pk>\d+)/$', views.post_detail),
+    url(r'^post/(?P<pk>\d+)/edit/$', views.post_edit, name='post_edit'),
+    url(r'^post/(?P<pk>\d+)/remove/$', views.post_remove, name = 'post_remove'),
     url(r'^(?P<pk>\d+)/comments/new/$', views.comment_new),
     url(r'^(?P<post_pk>\d+)/comments/(?P<pk>\d+)/edit/$', views.comment_edit),
     url(r'^register/$', views.register, name='register'),

@@ -2,6 +2,9 @@ from django import forms
 from .models import Comment
 from .models import Post
 
+class SearchForm(forms.Form):
+    word = forms.CharField(label='Search Word')
+
 class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment

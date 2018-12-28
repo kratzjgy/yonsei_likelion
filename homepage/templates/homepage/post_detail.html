@@ -1,50 +1,32 @@
 {% extends 'homepage/base.html' %}
-
 {% block content %}
-<style type="text/css">
-  .yonsei-blue{
-    background-color: #1B1ECE;
-  }
-</style>
-
-<section class="bg-primary" id="about">
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-8 mx-auto text-center">
-        <h2 class="section-heading text-white">게시물 #{{post.id}}</h2>
-      </div>
-    </div>
-  </div>
-</section>
-
 <section id="contact">
   <div class="container">
     <div class="row">
       <div class="col-lg-8 mx-auto text-center">
-
-<small>작성자: {{post.author}}</small>
-<h1>{{post.title}}</h1>
-{% if post.photo %}
-    <img src="{{ post.photo.url }}" />
-{% endif %}
+<h1>"{{post.title}}"</h1>
+<hr>
 {{post.content|linebreaks}}
+<a class="btn btn-primary btn-xl js-scroll-trigger" href="{% url 'homepage.views.post_edit' pk=post.pk %}">수정하기</a>
+<a class="btn btn-primary btn-xl js-scroll-trigger" href="{% url 'homepage.views.post_remove' pk=post.pk %}">삭제하기</a>
+<hr><br>
+<p>Comments</p>
 
+<a href = "{% url 'homepage.views.comment_new' post.pk %}">댓글 쓰기</a><br><br>
 
-<h3>Comments</h3>
-
-<a href = "{% url 'homepage.views.comment_new' post.pk %}">댓글 쓰기</a>
-
-<ul>
+<ol>
     {% for comment in post.comment_set.all %}
         <li>
             {{comment.message}}
             <small>by {{comment.author}}, {{comment.created_at}}</small>
-            <a href="{% url 'homepage.views.comment_edit' post.pk comment.pk %}">수정하기</a>
+            <a href = "{% url 'homepage.views.comment_edit' post.pk comment.pk %}">수정하기</a>
         </li>
     {% endfor %}
-</ul>
-
-
+</ol>
+</div>
+</div>
+</div>
+</section>
 <section id="contact">
   <div class="container">
     <div class="row">
@@ -68,4 +50,5 @@
     </div>
   </div>
 </section>
+
 {% endblock %}

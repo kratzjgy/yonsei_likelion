@@ -22,7 +22,7 @@ class Post(models.Model):
     content = models.TextField()
     photo = models.ImageField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add = True)
-    updated_at = models.DateTimeField(auto_now = True)
+    published_date = models.DateTimeField(blank = True, null = True)
     hits = models.IntegerField(null=True, blank=True)
     
     def __unicode__(self):
