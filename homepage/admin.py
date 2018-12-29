@@ -8,5 +8,8 @@ admin.site.register(Homepage)
 class PostAdmin(admin.ModelAdmin):
     list_display = ('id', 'author', 'title')
 
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ('id', 'post', 'author', 'message')
+
 admin.site.register(Post, PostAdmin)
-admin.site.register(Comment)
+admin.site.register(Comment, CommentAdmin)

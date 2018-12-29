@@ -1,13 +1,17 @@
+from django import forms
 from django.shortcuts import render
 from django.shortcuts import redirect
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponse
+from django.http import HttpResponseRedirect
+from django.http import HttpResponse
 from django.template import loader
 from django.utils import timezone
+#MODEL IMPORT
 from .models import Homepage
 from .models import Post
 from .models import Comment
-#from .models import .
+#FORM IMPORT
 from .forms import CommentForm
 from .forms import PostForm
 from .forms import SearchForm
@@ -15,13 +19,10 @@ from .forms import UserRegistrationForm
 # Create your views here.
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
-from django.http import HttpResponseRedirect
-from django import forms
-
-from django.http import HttpResponse
 from django.template import loader
-#generic view
 
+
+#LOGIN
 def register(request):
     if request.method == 'POST':
         form = UserRegistrationForm(request.POST)
@@ -40,7 +41,8 @@ def register(request):
     else:
         form = UserRegistrationForm()
     return render(request, 'homepage/register.html', {'form' : form})
-    
+
+#INDEX
 def index(request):
     template = loader.get_template('homepage/index.html')
     context = {
@@ -60,7 +62,7 @@ def post(request):
     return render(request, 'homepage/post.html', {
         'post_list': post_list, 'totalCnt' : totalCnt, 
     })
-
+###########################ERROR...#################################
 def get_queryset(self):
     qs = Post.Objects.all()
     q = self.request.GET.get('q', '')
@@ -110,8 +112,10 @@ def post_remove(request, pk):
     return redirect('homepage.views.post')
     
 
-    
+#COMMENT
+
 def comment_new(request, pk):
+    #comment = get_object_or_404(Comment, pk=pk)
     if request.method == 'POST':
         form = CommentForm(request.POST)
         if form.is_valid():
@@ -126,7 +130,7 @@ def comment_new(request, pk):
     })
         
 def comment_edit(request, post_pk, pk):
-    comment = Comment.objects.get(pk=pk)
+    comment = get_object_or_404(Comment, pk=pk)
     
     if request.method == 'POST':
         form = CommentForm(request.POST, instance=comment)
@@ -141,6 +145,11 @@ def comment_edit(request, post_pk, pk):
         'form' : form,
     })
     
+def comment_remove(request, post_pk, pk):
+    post = get_object_or_404(Post, pk=post_pk)
+    comment = get_object_or_404(Comment, pk=pk)
+    comment.delete()
+    return redirect('homepage.views.post_detail', post_pk)
+    
 def home(request):
     return render(request,'homepage/home.html',{}) 
-
